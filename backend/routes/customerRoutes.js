@@ -1,0 +1,22 @@
+import express from "express";
+
+import authMiddleware from "../middleware/authMiddleware.js";
+
+import {
+  addCustomer,
+  getCustomers,
+  getCustomerById,
+  updateCustomer,
+} from "../controllers/customerController.js";
+
+const router = express.Router();
+
+router.post("/", authMiddleware, addCustomer);
+
+router.get("/", authMiddleware, getCustomers);
+
+router.get("/:id", authMiddleware, getCustomerById);
+
+router.put("/:id", authMiddleware, updateCustomer);
+
+export default router;
