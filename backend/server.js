@@ -4,6 +4,10 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
+import milkRoutes from "./routes/milkRoutes.js";
+import ledgerRoutes from "./routes/ledgerRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
+
 
 import { connectDB } from "./config/database.js";
 import { syncDatabase } from "./models/index.js";
@@ -19,6 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/customers", customerRoutes);
+app.use("/api/milk", milkRoutes);
+app.use("/api/ledger", ledgerRoutes);
+app.use("/api/payment", paymentRoutes);  
 
 app.get("/", (req, res) => {
   res.json({

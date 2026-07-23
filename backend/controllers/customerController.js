@@ -7,6 +7,11 @@ export const addCustomer = async (req, res) => {
       fullName,
       mobile,
       address,
+      village,
+      milkType,
+      defaultRate,
+      shift,
+      notes,
       openingBalance,
     } = req.body;
 
@@ -32,14 +37,27 @@ export const addCustomer = async (req, res) => {
       });
     }
 
-    const customer = await Customer.create({
-      fullName,
-      mobile,
-      address,
-      openingBalance: openingBalance || 0,
-      currentBalance: openingBalance || 0,
-      userId: req.user.id,
-    });
+    // Auto Generate Customer Code
+const totalCustomers = await Customer.count({
+  where: {
+    userId: req.user.id,
+  },
+});
+
+const customer = await Customer.create({
+  customerCode: `TD${String(totalCustomers + 1).padStart(4, "0")}`,
+  fullName,
+  mobile,
+  address,
+  village,
+  milkType,
+  defaultRate,
+  shift,
+  notes,
+  openingBalance: openingBalance || 0,
+  currentBalance: openingBalance || 0,
+  userId: req.user.id,
+});
 
     return res.status(201).json({
       success: true,
@@ -68,6 +86,7 @@ export const getCustomers = async (req, res) => {
 
       where: {
         userId: req.user.id,
+        status: "Active",
       },
 
       order: [["createdAt", "DESC"]],
@@ -166,6 +185,45 @@ export const updateCustomer = async (req, res) => {
       success: true,
       message: "Customer Updated Successfully",
       customer,
+    });
+
+  } catch (error) {
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+
+  }
+};
+
+//delete customer
+
+export const deleteCustomer = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const customer = await Customer.findOne({
+      where: {
+        id,
+        userId: req.user.id,
+      },
+    });
+
+    if (!customer) {
+      return res.status(404).json({
+        success: false,
+        message: "Customer Not Found",
+      });
+    }
+
+    await customer.update({
+      status: "Inactive",
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Customer Deleted Successfully",
     });
 
   } catch (error) {

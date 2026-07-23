@@ -25,6 +25,36 @@ const Customer = sequelize.define(
       type: DataTypes.TEXT,
       defaultValue: "",
     },
+    village: {
+      type: DataTypes.STRING,
+      defaultValue: "",
+    },
+    
+    customerCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    
+    milkType: {
+      type: DataTypes.ENUM("Cow", "Buffalo", "Mixed"),
+      defaultValue: "Cow",
+    },
+    
+    defaultRate: {
+      type: DataTypes.DECIMAL(10, 2),
+      defaultValue: 0,
+    },
+    
+    shift: {
+      type: DataTypes.ENUM("Morning", "Evening", "Both"),
+      defaultValue: "Both",
+    },
+    
+    notes: {
+      type: DataTypes.TEXT,
+      defaultValue: "",
+    },
 
     profileImage: {
       type: DataTypes.STRING,
