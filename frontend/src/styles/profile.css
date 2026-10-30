@@ -1,0 +1,366 @@
+/* ==========================================
+   Owner Profile
+========================================== */
+
+.profile-page {
+    padding-bottom: 30px;
+  }
+  
+  /* ==========================================
+     Header
+  ========================================== */
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .profile-header h2 {
+    font-weight: 750;
+    color: #172033;
+    margin-bottom: 5px;
+  }
+  
+  .profile-header p {
+    color: #7b8798;
+    margin: 0;
+  }
+  
+  .profile-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  
+    padding: 9px 15px;
+  
+    border-radius: 10px;
+  
+    background: #eaf3ff;
+    color: #0d6efd;
+  
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  /* ==========================================
+     Cards
+  ========================================== */
+  
+  .profile-card {
+    background: #ffffff;
+  
+    border: 1px solid #e7edf5;
+  
+    border-radius: 16px;
+  
+    padding: 28px;
+  
+    box-shadow:
+      0 5px 20px rgba(30, 70, 120, 0.06);
+  }
+  
+  .profile-card-header {
+    display: flex;
+    align-items: center;
+  
+    gap: 14px;
+  
+    margin-bottom: 28px;
+  
+    padding-bottom: 20px;
+  
+    border-bottom: 1px solid #edf1f6;
+  }
+  
+  .profile-section-icon {
+    width: 46px;
+    height: 46px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    border-radius: 12px;
+  
+    background: #eaf3ff;
+  
+    color: #0d6efd;
+  
+    flex-shrink: 0;
+  }
+  
+  .profile-card-header h4 {
+    font-size: 19px;
+  
+    font-weight: 700;
+  
+    color: #172033;
+  
+    margin: 0 0 3px;
+  }
+  
+  .profile-card-header p {
+    font-size: 13px;
+  
+    color: #7b8798;
+  
+    margin: 0;
+  }
+  
+  /* ==========================================
+     Labels
+  ========================================== */
+  
+  .profile-card label {
+    display: block;
+  
+    font-size: 13px;
+  
+    font-weight: 600;
+  
+    color: #344054;
+  
+    margin-bottom: 7px;
+  }
+  
+  /* ==========================================
+     Inputs
+  ========================================== */
+  
+  .profile-input {
+    height: 50px;
+  
+    display: flex;
+    align-items: center;
+  
+    padding: 0 13px;
+  
+    border: 1px solid #dce3ec;
+  
+    border-radius: 10px;
+  
+    background: #ffffff;
+  
+    transition: all 0.2s ease;
+  }
+  
+  .profile-input svg {
+    color: #8a96a8;
+  
+    margin-right: 10px;
+  
+    flex-shrink: 0;
+  }
+  
+  .profile-input input {
+    width: 100%;
+  
+    border: none;
+  
+    outline: none;
+  
+    background: transparent;
+  
+    color: #172033;
+  
+    font-size: 14px;
+  }
+  
+  .profile-input input::placeholder {
+    color: #a1aaba;
+  }
+  
+  .profile-input:focus-within {
+    border-color: #0d6efd;
+  
+    box-shadow:
+      0 0 0 4px rgba(13, 110, 253, 0.08);
+  }
+  
+  .profile-input:focus-within svg {
+    color: #0d6efd;
+  }
+  
+  /* ==========================================
+     Save Button
+  ========================================== */
+  
+  .profile-save-btn,
+  .password-btn {
+    min-height: 48px;
+  
+    border: none;
+  
+    border-radius: 10px;
+  
+    padding: 0 20px;
+  
+    display: inline-flex;
+  
+    align-items: center;
+  
+    justify-content: center;
+  
+    gap: 9px;
+  
+    font-size: 14px;
+  
+    font-weight: 600;
+  
+    color: #ffffff;
+  
+    cursor: pointer;
+  
+    transition: all 0.2s ease;
+  }
+  
+  .profile-save-btn {
+    background: #0d6efd;
+  }
+  
+  .profile-save-btn:hover:not(:disabled) {
+    background: #0b5ed7;
+  
+    transform: translateY(-1px);
+  }
+  
+  .password-btn {
+    width: 100%;
+  
+    background: #172033;
+  }
+  
+  .password-btn:hover:not(:disabled) {
+    background: #0d6efd;
+  
+    transform: translateY(-1px);
+  }
+  
+  .profile-save-btn:disabled,
+  .password-btn:disabled {
+    opacity: 0.7;
+  
+    cursor: not-allowed;
+  }
+  
+  /* ==========================================
+     Password Fields
+  ========================================== */
+  
+  .password-field {
+    margin-bottom: 20px;
+  }
+  
+  /* ==========================================
+     Security Note
+  ========================================== */
+  
+  .security-note {
+    margin-top: 20px;
+  
+    padding: 13px;
+  
+    display: flex;
+    align-items: flex-start;
+  
+    gap: 9px;
+  
+    border-radius: 10px;
+  
+    background: #f5f8fc;
+  
+    color: #687588;
+  
+    font-size: 12px;
+  
+    line-height: 1.5;
+  }
+  
+  .security-note svg {
+    color: #0d6efd;
+  
+    margin-top: 2px;
+  
+    flex-shrink: 0;
+  }
+  
+  /* ==========================================
+     Loading
+  ========================================== */
+  
+  .profile-loading {
+    min-height: 400px;
+  
+    display: flex;
+    flex-direction: column;
+  
+    align-items: center;
+    justify-content: center;
+  
+    color: #7b8798;
+  }
+  
+  .profile-loading p {
+    margin-top: 12px;
+  }
+  
+  /* ==========================================
+     Mobile
+  ========================================== */
+  
+  @media (max-width: 767px) {
+  
+    .profile-header {
+      align-items: flex-start;
+  
+      gap: 15px;
+  
+      flex-direction: column;
+    }
+  
+    .profile-badge {
+      font-size: 12px;
+  
+      padding: 8px 12px;
+    }
+  
+    .profile-card {
+      padding: 20px;
+  
+      border-radius: 14px;
+    }
+  
+    .profile-card-header {
+      margin-bottom: 22px;
+    }
+  
+    .profile-card-header h4 {
+      font-size: 17px;
+    }
+  
+    .profile-save-btn {
+      width: 100%;
+    }
+  }
+  
+  /* ==========================================
+     Small Mobile
+  ========================================== */
+  
+  @media (max-width: 400px) {
+  
+    .profile-card {
+      padding: 17px;
+    }
+  
+    .profile-section-icon {
+      width: 42px;
+      height: 42px;
+    }
+  
+    .profile-card-header h4 {
+      font-size: 16px;
+    }
+  
+  }

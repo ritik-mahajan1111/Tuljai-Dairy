@@ -1,22 +1,32 @@
-# Node Modules
+# Dependencies
+
 **/node_modules/
 
-# Environment Files
-**/.env
+# Environment variables and secrets
+
+.env
+.env.*
+!.env.example
 
 # Logs
-*.log
 
-# Build
-dist/
-build/
+*.log
+npm-debug.log*
+
+# Build outputs
+
+**/dist/
+**/build/
 
 # VS Code
+
 .vscode/
 
-# OS Files
+# Operating system files
+
 .DS_Store
 Thumbs.db
 
-# Uploads
+# User uploads
+
 uploads/

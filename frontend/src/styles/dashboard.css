@@ -1,0 +1,140 @@
+/* ==========================================
+   Dashboard Customer Cards
+========================================== */
+
+.customer-dashboard-card {
+    border: 1px solid #e7edf5 !important;
+    border-radius: 16px !important;
+    background: #ffffff;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+  
+  .customer-dashboard-card:hover {
+    transform: translateY(-5px);
+    border-color: #0d6efd !important;
+    box-shadow: 0 10px 25px rgba(13, 110, 253, 0.12) !important;
+  }
+  
+  .customer-dashboard-card:active {
+    transform: translateY(-1px);
+  }
+  
+  /* Customer avatar */
+  
+  .customer-dashboard-card .rounded-circle {
+    transition: all 0.25s ease;
+  }
+  
+  .customer-dashboard-card:hover .rounded-circle {
+    transform: scale(1.08);
+    background: #0d6efd !important;
+    color: #ffffff !important;
+  }
+  
+  /* Customer name */
+  
+  .customer-dashboard-card h5 {
+    transition: color 0.2s ease;
+  }
+  
+  .customer-dashboard-card:hover h5 {
+    color: #0d6efd;
+  }
+  
+  /* Open button */
+  
+  .customer-dashboard-card .btn-primary {
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  
+  .customer-dashboard-card .btn-primary:hover {
+    transform: translateY(-1px);
+  }
+  
+  /* Arrow */
+  
+  .customer-dashboard-card > .card-body > div:first-child
+    > svg {
+    transition: transform 0.25s ease;
+  }
+  
+  .customer-dashboard-card:hover
+    > .card-body
+    > div:first-child
+    > svg {
+    transform: translateX(5px);
+  }
+  
+  /* ==========================================
+     Search Box
+  ========================================== */
+  
+  .dashboard-search {
+    border-radius: 10px;
+    border: 1px solid #dce5f0;
+    transition: all 0.2s ease;
+  }
+  
+  .dashboard-search:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+  }
+  
+  /* ==========================================
+     Mobile
+  ========================================== */
+  
+  @media (max-width: 767px) {
+  
+    .customer-dashboard-card {
+      border-radius: 14px !important;
+    }
+  
+    .customer-dashboard-card:hover {
+      transform: none;
+    }
+  
+    .customer-dashboard-card .card-body {
+      padding: 18px;
+    }
+  
+    .customer-dashboard-card h5 {
+      font-size: 17px;
+    }
+  
+    .customer-dashboard-card small {
+      font-size: 12px;
+    }
+  
+    .customer-dashboard-card .btn-primary {
+      min-height: 44px;
+    }
+  
+  }
+  
+  /* ==========================================
+     Small Mobile
+  ========================================== */
+  
+  @media (max-width: 480px) {
+  
+    .customer-dashboard-card .card-body {
+      padding: 15px;
+    }
+  
+    .customer-dashboard-card .rounded-circle {
+      width: 44px !important;
+      height: 44px !important;
+      margin-right: 10px !important;
+    }
+  
+    .customer-dashboard-card .rounded-circle svg {
+      width: 19px;
+      height: 19px;
+    }
+  
+  }

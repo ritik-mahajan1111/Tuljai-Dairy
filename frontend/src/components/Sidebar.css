@@ -1,0 +1,581 @@
+/* ==========================================
+   TULJAI DAIRY SIDEBAR
+   Blue + White Responsive Theme
+========================================== */
+
+:root {
+  --sidebar-blue: #0d6efd;
+  --sidebar-dark-blue: #0b5ed7;
+  --sidebar-light-blue: #eaf3ff;
+  --sidebar-text: #52627a;
+  --sidebar-border: #e5eaf1;
+}
+
+
+/* ==========================================
+   DESKTOP SIDEBAR
+========================================== */
+
+.sidebar {
+  width: 270px;
+  height: 100vh;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  background: #ffffff;
+
+  border-right: 1px solid var(--sidebar-border);
+
+  display: flex;
+  flex-direction: column;
+
+  z-index: 1050;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  box-sizing: border-box;
+}
+
+
+/* ==========================================
+   SIDEBAR HEADER
+========================================== */
+
+.sidebar-header {
+  min-height: 145px;
+
+  padding: 25px 20px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  border-bottom: 1px solid var(--sidebar-border);
+
+  position: relative;
+
+  box-sizing: border-box;
+}
+
+.sidebar-logo-icon {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 14px;
+
+  background: var(--sidebar-light-blue);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 25px;
+
+  flex-shrink: 0;
+}
+
+.sidebar-logo {
+  font-size: 19px;
+  font-weight: 700;
+  color: #182235;
+}
+
+.sidebar-header small {
+  display: block;
+  margin-top: 4px;
+
+  color: #8a96a8;
+  font-size: 12px;
+}
+
+
+/* ==========================================
+   SIDEBAR NAVIGATION
+========================================== */
+
+.sidebar-nav {
+  padding: 22px 14px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  overflow-y: auto;
+
+  box-sizing: border-box;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 13px 15px;
+
+  border-radius: 11px;
+
+  text-decoration: none;
+
+  color: var(--sidebar-text);
+
+  font-size: 15px;
+  font-weight: 500;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.sidebar-nav a svg {
+  width: 18px;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.sidebar-nav a:hover {
+  background: var(--sidebar-light-blue);
+  color: var(--sidebar-blue);
+  transform: translateX(3px);
+}
+
+.sidebar-nav a.active {
+  background: var(--sidebar-blue);
+  color: #ffffff;
+
+  box-shadow:
+    0 6px 16px rgba(13, 110, 253, 0.25);
+}
+
+.sidebar-nav a.active:hover {
+  background: var(--sidebar-dark-blue);
+  color: #ffffff;
+  transform: translateX(0);
+}
+
+
+/* ==========================================
+   SIDEBAR BOTTOM
+========================================== */
+
+.sidebar-bottom {
+  margin-top: auto;
+
+  padding: 18px;
+
+  border-top: 1px solid var(--sidebar-border);
+}
+
+.sidebar-version {
+  text-align: center;
+
+  color: #9aa5b5;
+
+  font-size: 12px;
+}
+
+
+/* ==========================================
+   MOBILE MENU BUTTON
+========================================== */
+
+/*
+   IMPORTANT:
+   Ye Sidebar.jsx wala button hai.
+*/
+
+.mobile-menu-btn {
+  display: none;
+
+  position: fixed;
+
+  top: 15px;
+  left: 15px;
+
+  width: 45px;
+  height: 45px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: var(--sidebar-light-blue);
+
+  color: var(--sidebar-blue);
+
+  font-size: 20px;
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  z-index: 2100;
+
+  box-shadow:
+    0 5px 15px rgba(13, 110, 253, 0.15);
+}
+
+.mobile-menu-btn:hover {
+  background: #dcecff;
+  transform: scale(1.04);
+}
+
+
+/* ==========================================
+   SIDEBAR CLOSE BUTTON
+========================================== */
+
+.sidebar-close-btn {
+  display: none;
+
+  position: absolute;
+
+  right: 15px;
+  top: 18px;
+
+  width: 38px;
+  height: 38px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #f1f5f9;
+
+  color: #52627a;
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.sidebar-close-btn:hover {
+  background: #e7edf5;
+  color: var(--sidebar-blue);
+}
+
+
+/* ==========================================
+   OVERLAY
+========================================== */
+
+.sidebar-overlay {
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(15, 23, 42, 0.45);
+
+  z-index: 1040;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 768px) {
+
+  /* ------------------------------------------
+     Sidebar
+  ------------------------------------------ */
+
+  .sidebar {
+    width: 280px;
+
+    transform: translateX(-100%);
+
+    box-shadow: none;
+
+    z-index: 2000;
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+
+    box-shadow:
+      8px 0 30px rgba(15, 23, 42, 0.15);
+  }
+
+
+  /* ------------------------------------------
+     ONLY Sidebar Menu Button
+  ------------------------------------------ */
+
+  .mobile-menu-btn {
+    display: flex !important;
+
+    position: fixed !important;
+
+    top: 14px !important;
+    left: 14px !important;
+
+    width: 45px !important;
+    height: 45px !important;
+
+    padding: 0 !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #eaf3ff !important;
+    color: #0d6efd !important;
+
+    border: none !important;
+    border-radius: 10px !important;
+
+    z-index: 2100 !important;
+  }
+
+
+  /* ------------------------------------------
+     Sidebar Close
+  ------------------------------------------ */
+
+  .sidebar-close-btn {
+    display: flex;
+  }
+
+
+  /* ------------------------------------------
+     Overlay
+  ------------------------------------------ */
+
+  .sidebar-overlay {
+    display: block;
+  }
+
+/* ==========================================
+   SIDEBAR HEADER
+========================================== */
+
+.sidebar-header {
+  min-height: 120px;
+
+  padding: 22px 18px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  border-bottom: 1px solid var(--sidebar-border);
+
+  position: relative;
+
+  box-sizing: border-box;
+}
+
+
+/* Logo */
+
+.sidebar-logo-icon {
+  width: 48px;
+  height: 48px;
+
+  min-width: 48px;
+
+  border-radius: 14px;
+
+  background: var(--sidebar-light-blue);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 25px;
+
+  flex-shrink: 0;
+}
+
+
+/* Logo text container */
+
+.sidebar-header > div:nth-child(2) {
+  min-width: 0;
+
+  padding-right: 45px;
+}
+
+
+/* Logo name */
+
+.sidebar-logo {
+  font-size: 19px;
+
+  font-weight: 700;
+
+  color: #182235;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* Subtitle */
+
+.sidebar-header small {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #8a96a8;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+}
+
+
+/* ==========================================
+   CLOSE BUTTON
+========================================== */
+
+.sidebar-close-btn {
+  display: none;
+
+  position: absolute;
+
+  right: 15px;
+  top: 18px;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #f1f5f9;
+
+  color: #52627a;
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  z-index: 10;
+
+  flex-shrink: 0;
+}
+
+
+.sidebar-close-btn:hover {
+  background: #e7edf5;
+
+  color: var(--sidebar-blue);
+}
+
+
+/* ==========================================
+   MOBILE HEADER
+========================================== */
+
+@media (max-width: 768px) {
+
+  .sidebar-header {
+    min-height: 125px;
+
+    padding: 22px 18px;
+  }
+
+
+  .sidebar-header > div:nth-child(2) {
+    padding-right: 55px;
+  }
+
+
+  .sidebar-logo {
+    font-size: 18px;
+
+    max-width: 125px;
+  }
+
+
+  .sidebar-close-btn {
+    display: flex;
+
+    right: 14px;
+    top: 18px;
+  }
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media (max-width: 480px) {
+
+  .sidebar-header {
+    min-height: 115px;
+
+    padding: 20px 16px;
+  }
+
+
+  .sidebar-logo-icon {
+    width: 44px;
+    height: 44px;
+
+    min-width: 44px;
+  }
+
+
+  .sidebar-header > div:nth-child(2) {
+    padding-right: 52px;
+  }
+
+
+  .sidebar-logo {
+    font-size: 17px;
+
+    max-width: 110px;
+  }
+
+
+  .sidebar-close-btn {
+    width: 40px;
+    height: 40px;
+
+    right: 12px;
+    top: 16px;
+  }
+
+}
+/* ==========================================
+   VERY SMALL MOBILE
+========================================== */
+
+@media (max-width: 360px) {
+
+  .sidebar {
+    width: 88%;
+  }
+
+  .mobile-menu-btn {
+    top: 11px !important;
+    left: 10px !important;
+
+    width: 42px !important;
+    height: 42px !important;
+  }
+}

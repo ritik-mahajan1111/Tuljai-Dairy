@@ -4,18 +4,25 @@ import authMiddleware from "../middleware/authMiddleware.js";
 import {
   addPayment,
   getPaymentHistory,
+  getPaymentById,
+  updatePayment,
+  deletePayment,
 } from "../controllers/paymentController.js";
 
 const router = express.Router();
 
-// Add Payment
 router.post("/", authMiddleware, addPayment);
 
-// Payment History
 router.get(
   "/customer/:customerId",
   authMiddleware,
   getPaymentHistory
 );
+
+router.get("/:id", authMiddleware, getPaymentById);
+
+router.put("/:id", authMiddleware, updatePayment);
+
+router.delete("/:id", authMiddleware, deletePayment);
 
 export default router;

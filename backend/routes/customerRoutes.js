@@ -6,20 +6,53 @@ import {
   addCustomer,
   getCustomers,
   getCustomerById,
+  getCustomerDetails,
   updateCustomer,
-  deleteCustomer
+  deleteCustomer,
 } from "../controllers/customerController.js";
 
 const router = express.Router();
 
-router.post("/", authMiddleware, addCustomer);
+// Add Customer
+router.post(
+  "/",
+  authMiddleware,
+  addCustomer
+);
 
-router.get("/", authMiddleware, getCustomers);
+// Get All Customers
+router.get(
+  "/",
+  authMiddleware,
+  getCustomers
+);
 
-router.get("/:id", authMiddleware, getCustomerById);
+// Get Complete Customer Details
+router.get(
+  "/:id/details",
+  authMiddleware,
+  getCustomerDetails
+);
 
-router.put("/:id", authMiddleware, updateCustomer);
+// Get Customer By ID
+router.get(
+  "/:id",
+  authMiddleware,
+  getCustomerById
+);
 
-router.delete("/:id", authMiddleware, deleteCustomer);
+// Update Customer
+router.put(
+  "/:id",
+  authMiddleware,
+  updateCustomer
+);
+
+// Delete Customer
+router.delete(
+  "/:id",
+  authMiddleware,
+  deleteCustomer
+);
 
 export default router;

@@ -4,9 +4,13 @@ import {
   Ledger,
 } from "../models/index.js";
 
-// ===============================
-// Add Milk Entry
-// ===============================
+import { recalculateCustomerBalance } from "../utils/ledgerHelper.js";
+
+import { sendCustomerSMS } from "../services/smsService.js";
+
+// ======================================================
+// ADD MILK ENTRY
+// ======================================================
 export const addMilkEntry = async (req, res) => {
   try {
     const {
@@ -42,31 +46,19 @@ export const addMilkEntry = async (req, res) => {
       });
     }
 
-    // Duplicate Entry Check
-    const existingEntry = await MilkEntry.findOne({
-      where: {
-        customerId,
-        entryDate,
-        session,
-      },
-    });
+    
 
-    if (existingEntry) {
-      return res.status(400).json({
-        success: false,
-        message: `${session} entry already exists for this date.`,
-      });
-    }
-
-    // Default Rate
+    // Final Rate
     const finalRate =
       rate && Number(rate) > 0
         ? Number(rate)
         : Number(customer.defaultRate);
 
-    // Auto Amount
-    const amount = Number(quantity) * finalRate;
+    // Amount
+    const amount =
+      Number(quantity) * finalRate;
 
+    // Create Milk Entry
     const milkEntry = await MilkEntry.create({
       customerId,
       userId: req.user.id,
@@ -75,38 +67,68 @@ export const addMilkEntry = async (req, res) => {
       quantity,
       rate: finalRate,
       amount,
-      remarks,
+      remarks: remarks || "",
     });
 
-   // New Balance
-const newBalance =
-Number(customer.currentBalance) + amount;
+    // Create Ledger Entry
+    await Ledger.create({
+      transactionDate: entryDate,
+      type: "Milk",
+      description: `${session} Milk Entry`,
+      paymentMode: "Cash",
+      credit: amount,
+      debit: 0,
+      balance: 0,
+      customerId: customer.id,
+      userId: req.user.id,
+    });
 
-// Update Customer Balance
-await customer.update({
-currentBalance: newBalance,
-});
+    // Recalculate Balance
+    await recalculateCustomerBalance(customer.id);
 
-// Ledger Entry
-await Ledger.create({
-transactionDate: entryDate,
-type: "Milk",
-description: `${session} Milk Entry`,
-credit: amount,
-debit: 0,
-balance: newBalance,
-customerId: customer.id,
-userId: req.user.id,
-});
+    // Reload customer after balance update
+    await customer.reload();
+
+    // ==================================================
+    // SEND SMS
+    // ==================================================
+    try {
+      await sendCustomerSMS({
+        mobile: customer.mobile,
+
+        variables: {
+          customer_name: customer.fullName,
+          quantity: Number(quantity).toFixed(2),
+          rate: Number(finalRate).toFixed(2),
+          amount: Number(amount).toFixed(2),
+          session: session,
+          date: entryDate,
+          balance: Number(
+            customer.currentBalance || 0
+          ).toFixed(2),
+        },
+      });
+    } catch (smsError) {
+      // SMS failure should NOT fail milk entry
+      console.error(
+        "Milk SMS Error:",
+        smsError.message
+      );
+    }
 
     return res.status(201).json({
       success: true,
       message: "Milk Entry Added Successfully",
       milkEntry,
+      smsSent: Boolean(
+        process.env.MSG91_AUTH_KEY &&
+        process.env.MSG91_FLOW_ID &&
+        process.env.MSG91_SENDER_ID
+      ),
     });
 
   } catch (error) {
-    console.log(error);
+    console.error("Add Milk Error:", error);
 
     return res.status(500).json({
       success: false,
@@ -115,9 +137,10 @@ userId: req.user.id,
   }
 };
 
-// ===============================
-// Get Customer Milk History
-// ===============================
+
+// ======================================================
+// GET CUSTOMER MILK HISTORY
+// ======================================================
 export const getMilkHistory = async (req, res) => {
   try {
     const { customerId } = req.params;
@@ -140,6 +163,7 @@ export const getMilkHistory = async (req, res) => {
     const history = await MilkEntry.findAll({
       where: {
         customerId,
+        userId: req.user.id,
       },
       order: [
         ["entryDate", "DESC"],
@@ -154,7 +178,187 @@ export const getMilkHistory = async (req, res) => {
     });
 
   } catch (error) {
-    console.log(error);
+    console.error("Milk History Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+// ======================================================
+// GET MILK BY ID
+// ======================================================
+export const getMilkById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const milkEntry = await MilkEntry.findOne({
+      where: {
+        id,
+        userId: req.user.id,
+      },
+    });
+
+    if (!milkEntry) {
+      return res.status(404).json({
+        success: false,
+        message: "Milk Entry Not Found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      milkEntry,
+    });
+
+  } catch (error) {
+    console.error("Get Milk Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+// ======================================================
+// UPDATE MILK ENTRY
+// ======================================================
+export const updateMilkEntry = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      entryDate,
+      session,
+      quantity,
+      rate,
+      remarks,
+    } = req.body;
+
+    const milkEntry = await MilkEntry.findOne({
+      where: {
+        id,
+        userId: req.user.id,
+      },
+    });
+
+    if (!milkEntry) {
+      return res.status(404).json({
+        success: false,
+        message: "Milk Entry Not Found",
+      });
+    }
+
+    // Save old ledger values before updating
+    const oldEntryDate = milkEntry.entryDate;
+    const oldSession = milkEntry.session;
+
+    const amount =
+      Number(quantity) * Number(rate);
+
+    // Update Milk
+    await milkEntry.update({
+      entryDate,
+      session,
+      quantity,
+      rate,
+      amount,
+      remarks: remarks || "",
+    });
+
+    // Find corresponding ledger
+    const ledger = await Ledger.findOne({
+      where: {
+        customerId: milkEntry.customerId,
+        userId: req.user.id,
+        type: "Milk",
+        description: `${oldSession} Milk Entry`,
+        transactionDate: oldEntryDate,
+      },
+    });
+
+    if (ledger) {
+      await ledger.update({
+        transactionDate: entryDate,
+        description: `${session} Milk Entry`,
+        credit: amount,
+      });
+    }
+
+    // Recalculate
+    await recalculateCustomerBalance(
+      milkEntry.customerId
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Milk Entry Updated Successfully",
+      milkEntry,
+    });
+
+  } catch (error) {
+    console.error("Update Milk Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+// ======================================================
+// DELETE MILK ENTRY
+// ======================================================
+export const deleteMilkEntry = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const milkEntry = await MilkEntry.findOne({
+      where: {
+        id,
+        userId: req.user.id,
+      },
+    });
+
+    if (!milkEntry) {
+      return res.status(404).json({
+        success: false,
+        message: "Milk Entry Not Found",
+      });
+    }
+
+    // Delete Ledger
+    await Ledger.destroy({
+      where: {
+        customerId: milkEntry.customerId,
+        userId: req.user.id,
+        type: "Milk",
+        description: `${milkEntry.session} Milk Entry`,
+        transactionDate: milkEntry.entryDate,
+      },
+    });
+
+    // Delete Milk Entry
+    await milkEntry.destroy();
+
+    // Recalculate
+    await recalculateCustomerBalance(
+      milkEntry.customerId
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Milk Entry Deleted Successfully",
+    });
+
+  } catch (error) {
+    console.error("Delete Milk Error:", error);
 
     return res.status(500).json({
       success: false,

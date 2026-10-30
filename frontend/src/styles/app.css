@@ -1,0 +1,445 @@
+/* ==========================================
+   GLOBAL
+========================================== */
+
+body {
+  margin: 0;
+  background: #f4f7fb;
+  font-family: Segoe UI, sans-serif;
+  overflow-x: hidden;
+}
+
+
+/* ==========================================
+   SIDEBAR - DESKTOP
+========================================== */
+
+.sidebar {
+  width: 260px;
+  min-height: 100vh;
+  background: #198754;
+  color: white;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 25px;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: white;
+  color: #198754;
+}
+
+.sidebar .active {
+  background: white;
+  color: #198754;
+}
+
+
+/* ==========================================
+   MAIN CONTENT
+========================================== */
+
+.main-content {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  min-height: 100vh;
+}
+
+
+/* ==========================================
+   TOP NAVBAR
+========================================== */
+
+.top-navbar {
+  background: white;
+
+  padding: 18px 30px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  min-height: 70px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  box-sizing: border-box;
+
+  position: relative;
+
+  z-index: 900;
+}
+
+.top-navbar h4 {
+  margin: 0;
+}
+
+
+/*
+   Navbar ke andar agar mobile button ho
+   to hide rahega.
+*/
+.top-navbar .mobile-menu-btn {
+  display: none !important;
+}
+
+
+/* ==========================================
+   CARD
+========================================== */
+
+.card-box {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 768px) {
+
+  /* Main content full width */
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+/* ==========================================
+   TOP NAVBAR
+========================================== */
+
+.top-navbar {
+  background: #ffffff;
+
+  min-height: 70px;
+
+  padding: 14px 30px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  box-sizing: border-box;
+
+  position: relative;
+
+  z-index: 900;
+}
+
+
+/* ==========================================
+   MOBILE MENU BUTTON
+========================================== */
+
+.navbar-mobile-menu-btn {
+  display: none;
+
+  border: none;
+
+  width: 45px;
+  height: 45px;
+
+  border-radius: 10px;
+
+  background: #eaf3ff;
+
+  color: #0d6efd;
+
+  font-size: 20px;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  cursor: pointer;
+}
+
+
+/* ==========================================
+   NAVBAR TITLE
+========================================== */
+
+.navbar-title {
+  color: #182235;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* ==========================================
+   RIGHT SIDE
+========================================== */
+
+.navbar-right {
+  margin-left: auto;
+
+  gap: 15px;
+
+  flex-shrink: 0;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 768px) {
+
+  .top-navbar {
+
+    min-height: 70px;
+
+    padding: 10px 12px;
+
+    gap: 10px;
+
+    width: 100%;
+
+  }
+
+
+  /* Navbar ka button visible */
+
+  .navbar-mobile-menu-btn {
+    display: flex;
+  }
+
+
+  /* Title */
+
+  .navbar-title {
+
+    font-size: 18px;
+
+    line-height: 1.2;
+
+    flex: 1;
+
+    min-width: 0;
+
+  }
+
+
+  /* Right side */
+
+  .navbar-right {
+
+    gap: 6px;
+
+  }
+
+
+  /* Owner name mobile par hide */
+
+  .navbar-user {
+    display: none !important;
+  }
+
+
+  /* Language */
+
+  .language-selector {
+
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 0 8px;
+
+    border-radius: 10px;
+
+    background: #f5f9ff;
+
+    border: 1px solid #dce8f7;
+
+    flex-shrink: 0;
+
+  }
+
+
+  .language-selector select {
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    font-size: 14px;
+
+    max-width: 65px;
+
+  }
+
+
+  /* Logout */
+
+  .navbar-logout {
+
+    width: 44px;
+
+    height: 44px;
+
+    padding: 0 !important;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+  }
+
+
+  .navbar-logout .me-1 {
+
+    margin-right: 0 !important;
+
+  }
+
+
+  .logout-text {
+    display: none;
+  }
+
+
+  /*
+     IMPORTANT:
+     Sidebar ka duplicate fixed button hide
+  */
+
+  .sidebar > .mobile-menu-btn {
+    display: none !important;
+  }
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media (max-width: 480px) {
+
+  .top-navbar {
+
+    min-height: 68px;
+
+    padding: 9px 8px;
+
+    gap: 7px;
+
+  }
+
+
+  .navbar-mobile-menu-btn {
+
+    width: 43px;
+
+    height: 43px;
+
+    font-size: 19px;
+
+  }
+
+
+  .navbar-title {
+
+    font-size: 16px;
+
+  }
+
+
+  .navbar-right {
+
+    gap: 5px;
+
+  }
+
+
+  .language-selector {
+
+    height: 42px;
+
+    padding: 0 6px;
+
+  }
+
+
+  .language-selector select {
+
+    max-width: 55px;
+
+    font-size: 13px;
+
+  }
+
+
+  .navbar-logout {
+
+    width: 42px;
+
+    height: 42px;
+
+  }
+
+}
+
+
+/* ==========================================
+   VERY SMALL MOBILE
+========================================== */
+
+@media (max-width: 380px) {
+
+  .navbar-title {
+
+    font-size: 15px;
+
+  }
+
+  .language-selector select {
+
+    max-width: 48px;
+
+  }
+
+}

@@ -15,6 +15,12 @@ const User = sequelize.define(
       allowNull: false,
     },
 
+    dairyName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "My Dairy",
+    },
+
     mobile: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -24,6 +30,7 @@ const User = sequelize.define(
     email: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: true,
     },
 
     password: {
@@ -38,6 +45,7 @@ const User = sequelize.define(
 
     address: {
       type: DataTypes.TEXT,
+      defaultValue: "",
     },
 
     role: {

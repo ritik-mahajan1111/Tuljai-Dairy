@@ -7,6 +7,8 @@ import customerRoutes from "./routes/customerRoutes.js";
 import milkRoutes from "./routes/milkRoutes.js";
 import ledgerRoutes from "./routes/ledgerRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import statementRoutes from "./routes/statementRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 
 import { connectDB } from "./config/database.js";
@@ -26,6 +28,8 @@ app.use("/api/customers", customerRoutes);
 app.use("/api/milk", milkRoutes);
 app.use("/api/ledger", ledgerRoutes);
 app.use("/api/payment", paymentRoutes);  
+app.use("/api/statement", statementRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/", (req, res) => {
   res.json({

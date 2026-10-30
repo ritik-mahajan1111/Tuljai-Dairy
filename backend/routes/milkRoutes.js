@@ -4,6 +4,9 @@ import authMiddleware from "../middleware/authMiddleware.js";
 import {
   addMilkEntry,
   getMilkHistory,
+  getMilkById,
+  updateMilkEntry,
+  deleteMilkEntry,
 } from "../controllers/milkController.js";
 
 const router = express.Router();
@@ -11,5 +14,11 @@ const router = express.Router();
 router.post("/", authMiddleware, addMilkEntry);
 
 router.get("/customer/:customerId", authMiddleware, getMilkHistory);
+
+router.get("/:id", authMiddleware, getMilkById);
+
+router.put("/:id", authMiddleware, updateMilkEntry);
+
+router.delete("/:id", authMiddleware, deleteMilkEntry);
 
 export default router;
