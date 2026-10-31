@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import {
   FaUser,
   FaPhone,
@@ -7,10 +8,15 @@ import {
   FaLock,
   FaMapMarkerAlt,
   FaStore,
+  FaArrowRight,
+  FaShieldAlt,
 } from "react-icons/fa";
+
 import toast from "react-hot-toast";
 
 import api from "../services/api";
+
+import "../styles/register.css";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -37,8 +43,8 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (form.password !== form.confirmPassword) {
-      toast.error("Passwords do not match");
+    if (!/^[0-9]{10}$/.test(form.mobile)) {
+      toast.error("Enter valid 10 digit mobile number");
       return;
     }
 
@@ -47,31 +53,46 @@ const Register = () => {
       return;
     }
 
+    if (form.password !== form.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
     try {
       setLoading(true);
 
-      await api.post("/auth/register", {
-        fullName: form.fullName,
-        dairyName: form.dairyName,
+      const { data } = await api.post("/auth/register", {
+        fullName: form.fullName.trim(),
+        dairyName: form.dairyName.trim(),
         mobile: form.mobile,
-        email: form.email,
+        email: form.email.trim() || null,
         password: form.password,
-        address: form.address,
+        address: form.address.trim(),
       });
 
-      toast.success(
-        "Dairy Owner registered successfully!"
-      );
+      if (data.success) {
+        toast.success("Dairy Account Created Successfully!");
 
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+        setForm({
+          fullName: "",
+          dairyName: "",
+          mobile: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          address: "",
+        });
+
+        setTimeout(() => {
+          navigate("/", { replace: true });
+        }, 1200);
+      }
     } catch (error) {
-      console.error("Registration error:", error);
+      console.error("Registration Error:", error);
 
       toast.error(
-        error?.response?.data?.message ||
-          "Registration failed"
+        error.response?.data?.message ||
+          "Registration Failed. Please try again."
       );
     } finally {
       setLoading(false);
@@ -79,213 +100,241 @@ const Register = () => {
   };
 
   return (
-    <div
-      className="min-vh-100 d-flex align-items-center justify-content-center p-3"
-      style={{
-        background:
-          "linear-gradient(135deg, #eef6ff 0%, #ffffff 50%, #e8f1ff 100%)",
-      }}
-    >
-      <div
-        className="card border-0 shadow-lg w-100"
-        style={{
-          maxWidth: "520px",
-          borderRadius: "20px",
-        }}
-      >
-        <div className="card-body p-4 p-md-5">
+    <div className="register-page">
 
-          {/* LOGO */}
-          <div className="text-center mb-4">
+      <div className="register-decoration register-decoration-one" />
+      <div className="register-decoration register-decoration-two" />
 
-            <div
-              className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
-              style={{
-                width: "70px",
-                height: "70px",
-                background: "#e8f1ff",
-                color: "#0d6efd",
-                fontSize: "30px",
-              }}
-            >
-              🥛
+      <div className="register-container">
+
+        {/* LEFT INFORMATION SECTION */}
+
+        <div className="register-info">
+
+          <div className="register-brand-mark">
+            TD
+          </div>
+
+          <h1>Tuljai Dairy</h1>
+
+          <h4>Dairy Management System</h4>
+
+          <p>
+            Start managing your dairy business with
+            a simple, secure and professional
+            dairy management system.
+          </p>
+
+          <div className="register-features">
+
+            <div className="register-feature">
+              <span>✓</span>
+              Customer Management
             </div>
 
-            <h2 className="fw-bold mb-1">
-              Create Dairy Account
-            </h2>
+            <div className="register-feature">
+              <span>✓</span>
+              Milk & Payment Tracking
+            </div>
 
-            <p className="text-muted mb-0">
-              Register as a Dairy Owner
-            </p>
+            <div className="register-feature">
+              <span>✓</span>
+              Complete Customer Statements
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* RIGHT REGISTRATION FORM */}
+
+        <div className="register-card">
+
+          <div className="register-card-header">
+
+            <div className="register-icon">
+              <FaShieldAlt />
+            </div>
+
+            <div>
+              <h2>Create Dairy Account</h2>
+              <p>Register as a Dairy Owner</p>
+            </div>
 
           </div>
 
           <form onSubmit={handleSubmit}>
 
-            {/* FULL NAME */}
-            <div className="input-group mb-3">
+            <div className="register-input">
 
-              <span className="input-group-text bg-white">
+              <label>Owner Full Name</label>
+
+              <div className="register-input-wrapper">
                 <FaUser />
-              </span>
 
-              <input
-                type="text"
-                name="fullName"
-                className="form-control"
-                placeholder="Owner Full Name"
-                value={form.fullName}
-                onChange={handleChange}
-                required
-              />
+                <input
+                  type="text"
+                  name="fullName"
+                  placeholder="Enter owner full name"
+                  value={form.fullName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
             </div>
 
-            {/* DAIRY NAME */}
-            <div className="input-group mb-3">
+            <div className="register-input">
 
-              <span className="input-group-text bg-white">
+              <label>Dairy Name</label>
+
+              <div className="register-input-wrapper">
                 <FaStore />
-              </span>
 
-              <input
-                type="text"
-                name="dairyName"
-                className="form-control"
-                placeholder="Dairy Name"
-                value={form.dairyName}
-                onChange={handleChange}
-                required
-              />
+                <input
+                  type="text"
+                  name="dairyName"
+                  placeholder="Enter dairy name"
+                  value={form.dairyName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
             </div>
 
-            {/* MOBILE */}
-            <div className="input-group mb-3">
+            <div className="register-input">
 
-              <span className="input-group-text bg-white">
+              <label>Mobile Number</label>
+
+              <div className="register-input-wrapper">
                 <FaPhone />
-              </span>
 
-              <input
-                type="tel"
-                name="mobile"
-                className="form-control"
-                placeholder="10 Digit Mobile Number"
-                value={form.mobile}
-                onChange={handleChange}
-                maxLength="10"
-                required
-              />
+                <input
+                  type="tel"
+                  name="mobile"
+                  placeholder="10 digit mobile number"
+                  value={form.mobile}
+                  onChange={handleChange}
+                  maxLength={10}
+                  required
+                />
+              </div>
 
             </div>
 
-            {/* EMAIL */}
-            <div className="input-group mb-3">
+            <div className="register-input">
 
-              <span className="input-group-text bg-white">
+              <label>Email Address (Optional)</label>
+
+              <div className="register-input-wrapper">
                 <FaEnvelope />
-              </span>
 
-              <input
-                type="email"
-                name="email"
-                className="form-control"
-                placeholder="Email Address (Optional)"
-                value={form.email}
-                onChange={handleChange}
-              />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter email address"
+                  value={form.email}
+                  onChange={handleChange}
+                />
+              </div>
 
             </div>
 
-            {/* PASSWORD */}
-            <div className="input-group mb-3">
+            <div className="register-input">
 
-              <span className="input-group-text bg-white">
+              <label>Password</label>
+
+              <div className="register-input-wrapper">
                 <FaLock />
-              </span>
 
-              <input
-                type="password"
-                name="password"
-                className="form-control"
-                placeholder="Password"
-                value={form.password}
-                onChange={handleChange}
-                required
-              />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Minimum 6 characters"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
             </div>
 
-            {/* CONFIRM PASSWORD */}
-            <div className="input-group mb-3">
+            <div className="register-input">
 
-              <span className="input-group-text bg-white">
+              <label>Confirm Password</label>
+
+              <div className="register-input-wrapper">
                 <FaLock />
-              </span>
 
-              <input
-                type="password"
-                name="confirmPassword"
-                className="form-control"
-                placeholder="Confirm Password"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                required
-              />
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm your password"
+                  value={form.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
             </div>
 
-            {/* ADDRESS */}
-            <div className="input-group mb-4">
+            <div className="register-input">
 
-              <span className="input-group-text bg-white">
+              <label>Dairy Address</label>
+
+              <div className="register-input-wrapper register-textarea-wrapper">
                 <FaMapMarkerAlt />
-              </span>
 
-              <textarea
-                name="address"
-                className="form-control"
-                placeholder="Dairy Address"
-                rows="2"
-                value={form.address}
-                onChange={handleChange}
-              />
+                <textarea
+                  name="address"
+                  placeholder="Enter dairy address"
+                  rows="2"
+                  value={form.address}
+                  onChange={handleChange}
+                />
+              </div>
 
             </div>
 
-            {/* REGISTER */}
             <button
               type="submit"
-              className="btn btn-primary w-100 py-2 fw-semibold"
+              className="register-button"
               disabled={loading}
             >
-              {loading
-                ? "Creating Account..."
-                : "Create Dairy Account"}
+              {loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm" />
+                  Creating Account...
+                </>
+              ) : (
+                <>
+                  Create Dairy Account
+                  <FaArrowRight />
+                </>
+              )}
             </button>
 
           </form>
 
-          {/* LOGIN */}
-          <div className="text-center mt-4">
+          <div className="register-login-link">
+            Already have an account?
 
-            <span className="text-muted">
-              Already have an account?{" "}
-            </span>
-
-            <Link
-              to="/"
-              className="text-primary fw-semibold text-decoration-none"
-            >
+            <Link to="/">
               Login
             </Link>
+          </div>
 
+          <div className="register-footer">
+            Secure Dairy Management
+            <span>•</span>
+            Tuljai Dairy
           </div>
 
         </div>
+
       </div>
+
     </div>
   );
 };
