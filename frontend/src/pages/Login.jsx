@@ -38,8 +38,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    console.log("LOGIN BUTTON CLICKED");
-    alert("Login submit function started!");
+   
   
     if (loading) return;
 
